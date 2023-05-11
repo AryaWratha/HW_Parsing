@@ -1,1 +1,19 @@
+import requests
+from bs4 import BeautifulSoup
 
+url = "https://otziv-otziv.ru/katalog/limonady-i-gazirovannye-napitki/coca-cola/gazirovannyy-napitok-coca-cola-classic.html?page=32"
+
+
+response = requests.get(url)
+soup = BeautifulSoup(response.content, "lxml")
+reviews = soup.find_all('div', 'container-reviews collapsible collapsed')
+for review in reviews:
+    print(review.get_text(strip=True, separator=' '))
+
+
+response = requests.get(url)
+soup = BeautifulSoup(response.content, "lxml")
+names = soup.find_all('h6')
+print("\nТовары аналоги Газированный напиток Coca-Cola Classic:\n")
+for i in range(len(names)):
+    print("    " + names[i].get_text(strip=True, separator=' '))
